@@ -141,21 +141,4 @@ var onRun = function(context, jsonObj) {
         }
     }
 
-}(context, [{
-    "img": "http://i.imgur.com/IBZMRic.png",
-    "title": "Holabila",
-    "date": {
-        "formatted": "25 Jan 2015",
-        "time_ago": "5 min ago"
-    },
-    "name": "Koen Vendrik"
-},
-{
-    "img": "/Users/koenvendrik/Desktop/350.png",
-    "title": "Bilahola",
-    "date": {
-        "formatted": "28 Feb 2015",
-        "time_ago": "2 days ago"
-    },
-    "name": "Jaer Pollux"
-}]);
+};
