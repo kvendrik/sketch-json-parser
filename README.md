@@ -2,11 +2,15 @@ Sketch JSON Parser
 =================
 #### Replaces text layer values in groups with JSON values
 
-#### Usage
-#####1 Say you have a group that looks like this:
+### Setup
+1. Download/Clone this repo
+2. Run json-parser.sketchplugin
+
+### Example
+#####1. Say you have a group that looks like this:
 ![Layer Group Example](http://i.imgur.com/6h3fQYj.png)
 
-#####2 And a JSON array that looks like this:
+#####2. And a JSON array that looks like this:
 ```
 [{
     "title": "Holabila",
@@ -26,13 +30,13 @@ Sketch JSON Parser
 }]
 ```
 
-#####3 Now include JSON path variables in your layer names like this:
+#####3. Now include JSON path variables in your layer names like this:
 ![Path Variables Example](http://i.imgur.com/IBZMRic.png)
 
-#####4 Duplicate the group as many times as you want
+#####4. Duplicate the group as many times as you want
 (in this case probably two times as you have two items in the array)
 
-#####5 Run the plugin and paste in the JSON
+#####5. Select the groups, run the plugin and paste in the JSON
 
-#####6 Voila! The plugin replaced all text values with data from the JSON object
+#####6. Voila! The plugin replaced all text values with data from the JSON object
 
