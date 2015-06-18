@@ -41,5 +41,5 @@ Sketch JSON Parser
 #####5. Run the plugin and paste in the JSON when prompted
 ![Prompt](http://i.imgur.com/sO4JCwi.png)
 
-#####6. Voila! The plugin replaced all layer values with data from the JSON object
+#####6. Voila! The plugin replaced all layer values with data from the JSON
 ![Woah GIF](http://www.reactiongifs.com/wp-content/gallery/omg/RDJ_Woah.gif)
