@@ -8,7 +8,7 @@ Sketch JSON Parser
 
 ### Example
 #####1. Say you have a group that looks like this:
-![Layer Group Example](http://i.imgur.com/PxJRHQS.png)
+![Layer Group Example](http://i.imgur.com/wKPFRdu.png)
 
 #####2. And a JSON array that looks like this:
 ```
@@ -33,7 +33,7 @@ Sketch JSON Parser
 ```
 
 #####3. Now include JSON path variables in your layer names like this:
-![Path Variables Example](http://i.imgur.com/hwH0ZI5.png)
+![Path Variables Example](http://i.imgur.com/JsnUwv2.png)
 
 #####4. Duplicate the group as many times as you want and select the groups
 (in this case probably two times as you have two items in the array)
