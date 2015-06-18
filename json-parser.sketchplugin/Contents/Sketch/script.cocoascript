@@ -27,24 +27,47 @@ var onRun = function(context, jsonObj) {
             var self = this;
             var parseIndividualLayer = function(MSLayer){
                 var tagMatch = MSLayer.name().match(/\$([^\s]+)/),
-                    tagVal;
+                    tagVal,
+                    val;
 
                 if(tagMatch != null && tagMatch[1]){
                     tagVal = tagMatch[1].trim();
                 } else {
                     return;
                 }
+
+                val = self.getValByPath(tagVal, json);
+                if(typeof val == 'undefined') return;
          
                 switch(MSLayer.class()){
                     case MSTextLayer:
-                        var val = self.getValByPath(tagVal, json);
-                        if(val){
-                            MSLayer.setStringValue(String(val));
-                            MSLayer.adjustFrameToFit();
-                        }
+                        MSLayer.setStringValue(String(val));
+                        MSLayer.adjustFrameToFit();
                         break;
                     case MSBitmapLayer:
-                        log('it\'s an image');
+                        var isUrl = new RegExp('http(s)?\:\/\/.+').test(val),
+                            fileManager = [NSFileManager defaultManager],
+                            img;
+
+                        if(isUrl){
+                            img = NSImage.alloc().initWithContentsOfURL(NSURL.URLWithString(val));
+                        } else {
+                            //check if image exists
+                            if(fileManager.fileExistsAtPath(val)){
+                                img = NSImage.alloc().initWithContentsOfFile(val);
+                            }
+                        }
+
+                        if(img){
+                            MSLayer.setConstrainProportions(false);
+                            MSLayer.setRawImage_convertColourspace_collection(img, false, doc.documentData().images());
+                            MSLayer.frame().setWidth(img.size().width);
+                            MSLayer.frame().setHeight(img.size().height);
+                            MSLayer.setConstrainProportions(true);
+                        } else {
+                            log('Image file '+val+' not found');
+                        }
+                        
                         break;
                 }
             };
@@ -118,4 +141,21 @@ var onRun = function(context, jsonObj) {
         }
     }
 
-};
+}(context, [{
+    "img": "http://i.imgur.com/IBZMRic.png",
+    "title": "Holabila",
+    "date": {
+        "formatted": "25 Jan 2015",
+        "time_ago": "5 min ago"
+    },
+    "name": "Koen Vendrik"
+},
+{
+    "img": "/Users/koenvendrik/Desktop/350.png",
+    "title": "Bilahola",
+    "date": {
+        "formatted": "28 Feb 2015",
+        "time_ago": "2 days ago"
+    },
+    "name": "Jaer Pollux"
+}]);

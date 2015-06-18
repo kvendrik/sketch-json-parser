@@ -1,6 +1,6 @@
 {
   "name" : "json-parser",
-  "description": "Replaces text layer values in groups with JSON values",
+  "description": "Replaces layer values in groups with JSON data",
   "author" : "Koen Vendrik",
   "homepage": "http://github.com/kvendrik/sketch-json-parser",
   "version" : 1.0,
