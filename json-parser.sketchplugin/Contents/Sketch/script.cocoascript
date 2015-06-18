@@ -1,0 +1,121 @@
+/**
+* context       passed by Sketch
+* [jsonObj]     optional js object param for debug data
+*/
+var onRun = function(context, jsonObj) {
+
+    //define helpers
+    var utils = {
+
+        getValByPath: function(path, json){
+            var pieces = path.split('.'),
+                currPath = json;
+              
+            for(var i = 0; i < pieces.length; i++){
+                var val = pieces[i];
+                if(currPath[val] == undefined){
+                    return undefined;
+                } else {
+                    currPath = currPath[val];
+                }
+            }
+              
+            return currPath;
+        },
+
+        parseLayer: function(layer, json){
+            var self = this;
+            var parseIndividualLayer = function(MSLayer){
+                var tagMatch = MSLayer.name().match(/\$([^\s]+)/),
+                    tagVal;
+
+                if(tagMatch != null && tagMatch[1]){
+                    tagVal = tagMatch[1].trim();
+                } else {
+                    return;
+                }
+         
+                switch(MSLayer.class()){
+                    case MSTextLayer:
+                        var val = self.getValByPath(tagVal, json);
+                        if(val){
+                            MSLayer.setStringValue(String(val));
+                            MSLayer.adjustFrameToFit();
+                        }
+                        break;
+                    case MSBitmapLayer:
+                        log('it\'s an image');
+                        break;
+                }
+            };
+
+            if(layer.class() == 'MSLayerGroup'){
+                //if is group
+                var layers = layer.children(),
+                    layersCount = layers.count();
+
+                for(var i = 0; i < layersCount; i++){
+                    parseIndividualLayer(layers[i]);
+                }
+            } else {
+                //if is layer
+                parseIndividualLayer(layer);
+            }
+        }
+
+    };
+
+    //get global vars
+    var doc = context.document,
+        app = [NSApplication sharedApplication];
+    
+    //get selected layers
+    var selectedLayers = context.selection,
+        selectedCount = selectedLayers.count();
+    
+    //check if layers are selected
+    if(selectedCount == 0) {
+        [app displayDialog:"No layers are selected."]
+        return;
+    }
+
+    //get JSON by user input
+    var jsonStr = jsonObj ? JSON.stringify(jsonObj) : [doc askForUserInput:"Enter the JSON you'd like to use" initialValue:""],
+        json;
+
+    //if input is an array, make valid json
+    if(jsonStr.indexOf('[') == 0){
+        jsonStr = '{ "__sketchJsonArray": '+jsonStr+' }';
+    }
+ 
+    //attempt to parse json
+    try {
+    	json = JSON.parse(jsonStr);
+    } catch(e){
+        [app displayDialog:"Whoops, looks like that's not valid JSON."]
+    	return;
+    }
+    
+    //check if json is an array
+    if(json.__sketchJsonArray){
+        //is an array
+        var dataArr = json.__sketchJsonArray;
+
+        //loop selected layers
+        for(var i = 0; i < selectedCount; i++){
+            var currLayer = selectedLayers[i],
+                currObj = dataArr[i];
+
+            if(currObj){
+                utils.parseLayer(currLayer, currObj);
+            }
+        }
+    } else {
+        //single object
+        //loop selected layers
+        for(var i = 0; i < selectedCount; i++){
+            utils.parseLayer(selectedLayers[i], json);
+        }
+    }
+
+};

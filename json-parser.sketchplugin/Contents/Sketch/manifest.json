@@ -1,0 +1,25 @@
+{
+  "name" : "json-parser",
+  "description": "Replaces text layer values in groups with JSON values",
+  "author" : "Koen Vendrik",
+  "homepage": "http://github.com/kvendrik/sketch-json-parser",
+  "version" : 1.0,
+  "identifier" : "com.example.sketch.3a59b701-baab-45cc-a80e-8e785f03428b",
+  "updateURL": "https://github.com/kvendrik/sketch-json-parser",
+  "compatibleVersion": 3.3,
+  "bundleVersion": 1,
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "handler" : "onRun",
+      "shortcut" : "",
+      "name" : "Run",
+      "identifier" : "run"
+    }
+  ],
+  "menu" : {
+    "items" : [
+      "run"
+    ]
+  }
+}
